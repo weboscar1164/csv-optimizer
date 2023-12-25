@@ -11,8 +11,11 @@
 	},
 	"dependencies": {
 		"csv-parser": "^3.0.0",
+		"encoding-japanese": "^2.0.0",
+		"papaparse": "^5.4.1",
 		"react": "^18.2.0",
-		"react-dom": "^18.2.0"
+		"react-dom": "^18.2.0",
+		"react-file-reader": "^1.1.4"
 	},
 	"devDependencies": {
 		"@types/react": "^18.2.43",

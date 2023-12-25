@@ -12,7 +12,6 @@ function App() {
 
 	useEffect(() => {
 		convertCsvData(csvData);
-		console.log(convertData);
 	}, [csvData]);
 
 	const uploadFile = (files) => {
@@ -40,17 +39,20 @@ function App() {
 	};
 
 	const convertCsvData = (csvData) => {
-		const newData = csvData.map((data, i) => {
-			return [
-				i,
-				data[10] + data[11],
-				data[13] + data[14],
-				data[15],
-				data[16],
-				data[18],
-			];
-		});
+		const newData = csvData
+			.filter((data) => data[0] !== "")
+			.map((data, i) => {
+				return [
+					i,
+					data[10] + data[11],
+					data[13] + data[14],
+					data[15],
+					data[16],
+					data[18],
+				];
+			});
 		setConvertData(newData);
+		console.log(newData);
 	};
 	return (
 		<>

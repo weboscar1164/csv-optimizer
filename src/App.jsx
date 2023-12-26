@@ -7,11 +7,15 @@ import ReactFileReader from "react-file-reader";
 import Encoding from "encoding-japanese";
 
 function App() {
+	const [testData, setTestData] = useState(false);
 	const [csvData, setCsvData] = useState([]);
 	const [convertData, setConvertData] = useState([]);
 
 	useEffect(() => {
-		convertCsvData(csvData);
+		if (csvData.length !== 0) {
+			testCsvData(csvData);
+			convertCsvData(csvData);
+		}
 	}, [csvData]);
 
 	const uploadFile = (files) => {
@@ -38,13 +42,21 @@ function App() {
 		reader.readAsArrayBuffer(file);
 	};
 
+	const testCsvData = (csvData) => {
+		if (csvData[0][0] === "注文ID" && csvData[1][0].length == 16) {
+			setTestData(true);
+		} else {
+			setTestData(false);
+		}
+	};
+
 	const convertCsvData = (csvData) => {
 		const newData = csvData
-			.filter((data) => data[0] !== "")
+			.filter((data) => data[0] !== "" && data[0] !== "注文ID")
 			.map((data, i) => {
 				return [
 					i,
-					data[10] + data[11],
+					data[10] + " " + data[11],
 					data[13] + data[14],
 					data[15],
 					data[16],
@@ -52,17 +64,27 @@ function App() {
 				];
 			});
 		setConvertData(newData);
-		console.log(newData);
+		console.log("newdata: " + newData);
 	};
+
+	const deleteData = (id) => {
+		const deletedData = convertData.filter((data) => data[0] !== id);
+		setConvertData(deletedData);
+	};
+
 	return (
 		<>
-			<h1 className="app-title">CSVゆうプリントコンバーター</h1>
+			<h1 className="app-title">BASE売上CSV→ゆうパック発送票コンバーター</h1>
 			<div className="app-upload">
 				<ReactFileReader handleFiles={uploadFile} fileTypes={".csv"}>
 					<button>アップロード</button>
 				</ReactFileReader>
 			</div>
-			<Data convertData={convertData}></Data>
+			<Data
+				convertData={convertData}
+				testData={testData}
+				deleteData={deleteData}
+			></Data>
 		</>
 	);
 }

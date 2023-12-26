@@ -28,8 +28,7 @@ const Data = ({
 								<th>住所2</th>
 								<th>電話番号</th>
 								<th>品名</th>
-								<th></th>
-								<th></th>
+								<th colSpan={2}></th>
 							</tr>
 							{convertData.map((data) => {
 								return (
@@ -41,7 +40,7 @@ const Data = ({
 										<td>{data.product}</td>
 										<td>
 											<button onClick={() => handleOpenEditModal(data)}>
-												修正
+												編集
 											</button>
 										</td>
 										<td>

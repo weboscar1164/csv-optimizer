@@ -1,5 +1,6 @@
 import React from "react";
 import Modal from "react-modal";
+import CSVDownloader from "../CSVDownlodaer";
 
 const ModalComponent = ({
 	title,
@@ -9,7 +10,7 @@ const ModalComponent = ({
 	buttonContent,
 	deleteData,
 	editData,
-	downloadData,
+	convertData,
 	currentData,
 	setCurrentData,
 	handleCloseModal,
@@ -17,10 +18,8 @@ const ModalComponent = ({
 	const clickHandler = () => {
 		if (showModal === "delete") {
 			deleteData(currentData.id);
-		} else if (showModal === "edit") {
-			editData(currentData);
 		} else {
-			downloadData();
+			editData(currentData);
 		}
 	};
 
@@ -30,7 +29,7 @@ const ModalComponent = ({
 			[key]: value,
 		};
 		setCurrentData(editedData);
-		console.log(currentData);
+		// console.log(currentData);
 	};
 
 	return (
@@ -45,6 +44,7 @@ const ModalComponent = ({
 							<td>
 								<input
 									type="text"
+									autoComplete="off"
 									value={currentData.name}
 									onChange={(e) => onEditData("name", e.target.value)}
 								/>
@@ -55,6 +55,7 @@ const ModalComponent = ({
 							<td>
 								<input
 									type="text"
+									autoComplete="off"
 									value={currentData.address1}
 									onChange={(e) => onEditData("address1", e.target.value)}
 								/>
@@ -65,6 +66,7 @@ const ModalComponent = ({
 							<td>
 								<input
 									type="text"
+									autoComplete="off"
 									value={currentData.address2}
 									onChange={(e) => onEditData("address2", e.target.value)}
 								/>
@@ -75,6 +77,7 @@ const ModalComponent = ({
 							<td>
 								<input
 									type="text"
+									autoComplete="off"
 									value={currentData.phone}
 									onChange={(e) => onEditData("phone", e.target.value)}
 								/>
@@ -85,6 +88,7 @@ const ModalComponent = ({
 							<td>
 								<input
 									type="text"
+									autoComplete="off"
 									value={currentData.product}
 									onChange={(e) => onEditData("product", e.target.value)}
 								/>
@@ -95,7 +99,16 @@ const ModalComponent = ({
 			) : (
 				<p>{content}</p>
 			)}
-			<button onClick={() => clickHandler()}>{buttonContent}</button>
+			{showModal === "download" ? (
+				<CSVDownloader
+					data={convertData}
+					filenameprefix="export"
+					buttonName="CSVダウンロード"
+					handleCloseModal={handleCloseModal}
+				/>
+			) : (
+				<button onClick={() => clickHandler()}>{buttonContent}</button>
+			)}
 			<button onClick={() => handleCloseModal()}>閉じる</button>
 		</Modal>
 	);

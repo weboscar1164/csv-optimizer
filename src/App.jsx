@@ -20,6 +20,7 @@ function App() {
 	const [currentData, setCurrentData] = useState([]);
 
 	useEffect(() => {
+		// 適正データかどうか確認してブラウザ上で確認できるデータに変換
 		if (csvData.length !== 0) {
 			testCsvData(csvData);
 			convertCsvData(csvData);
@@ -27,7 +28,7 @@ function App() {
 	}, [csvData]);
 
 	const uploadFile = (files) => {
-		// Using papaparse to parse the CSV files
+		// unicodeに変換
 		const file = files[0];
 		const reader = new FileReader();
 		reader.onload = (e) => {
@@ -39,9 +40,10 @@ function App() {
 				type: "string",
 			});
 
+			// 変換されたCSVファイルをpapaparseでパース
 			Papa.parse(unicodeString, {
 				complete: (result) => {
-					console.log("Finished:", result.data);
+					// console.log("Finished:", result.data);
 					setCsvData(result.data);
 				},
 				header: false,
@@ -51,6 +53,7 @@ function App() {
 	};
 
 	const testCsvData = (csvData) => {
+		// BASEからの売上データであることを確認
 		if (csvData[0][0] === "注文ID" && csvData[1][0].length == 16) {
 			setTestData(true);
 		} else {
@@ -59,6 +62,7 @@ function App() {
 	};
 
 	const convertCsvData = (csvData) => {
+		// ゆうプリントRで使用するデータを抽出・整形
 		const newData = csvData
 			.filter((data) => data[0] !== "" && data[0] !== "注文ID")
 			.map((data, i) => {
@@ -72,7 +76,7 @@ function App() {
 				};
 			});
 		setConvertData(newData);
-		console.log("newdata: " + newData);
+		// console.log("newdata: " + newData);
 	};
 
 	const deleteData = (id) => {
@@ -94,7 +98,7 @@ function App() {
 		handleCloseModal();
 	};
 
-	const downloadData = () => {
+	const downloadData = (props) => {
 		console.log("ダウンロードしました");
 	};
 
@@ -163,7 +167,7 @@ function App() {
 					showModal={showModal}
 					onClose={handleCloseModal}
 					handleCloseModal={handleCloseModal}
-					downloadData={downloadData}
+					convertData={convertData}
 					title="ダウンロードの確認"
 					content="ダウンロードしますか?"
 					buttonContent="ダウンロード"

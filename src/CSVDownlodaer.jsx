@@ -1,5 +1,6 @@
 import * as React from "react";
 import { unparse } from "papaparse";
+import "./components/ModalComponent.css";
 
 //現在日時取得関数 YYYYMMDDHHMMMのフォーマットで現在日時を取得、ファイル名のsuffixとして付ける
 const padZero = (num) => {
@@ -39,7 +40,14 @@ const CSVDownloader = ({
 
 		handleCloseModal();
 	};
-	return <button onClick={handleButtonClick}>{buttonName}</button>;
+	return (
+		<button
+			className="app-modal-button app-modal-action-button"
+			onClick={handleButtonClick}
+		>
+			{buttonName}
+		</button>
+	);
 };
 
 export default CSVDownloader;

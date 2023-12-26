@@ -1,0 +1,68 @@
+.app-data-container {
+    padding: 20px;
+    width: auto;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.app-button {
+    border: none;
+    border-radius: 3px;padding: 5px 10px;
+    color: #fff;
+    box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.35);
+    transition: all .3s;
+    cursor: pointer;
+}
+
+.app-button:hover {
+    transform: translateY(3px);
+    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.35);
+}
+
+.app-upload-button {
+    display: block;
+    width: 100px;
+    background: rgb(112, 112, 237);
+}
+
+.app-download-button {
+    margin-top: 15px;
+    background: rgb(120, 173, 149);
+}
+
+.app-edit-button {
+    background: rgb(120, 173, 149);
+}
+
+.app-delete-button {
+    margin-left: 8px;
+    background: rgb(218, 146, 114);
+}
+
+.app-data-table {
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.app-data-table table, th,td {
+    border: 1px solid #444;
+}
+
+.app-data-table td, th {
+	padding: 10px 10px;
+}
+
+.app-data-table tr:nth-of-type(odd) {
+    background: rgb(205, 240, 254);
+}
+.app-data-table-button {
+    width: 120px;
+    text-align: center;
+}
+
+.app-data-empty {
+    margin-top: 30px;
+}

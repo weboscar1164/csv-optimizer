@@ -125,14 +125,15 @@ function App() {
 		<div id="root">
 			<ErrorBoundary fallbackComponent={ErrorFallback}>
 				<Header />
-				<ReactFileReader
+				{/* <ReactFileReader
 					className="app-upload"
 					handleFiles={uploadFile}
 					fileTypes={".csv"}
 				>
 					<button>アップロード</button>
-				</ReactFileReader>
+				</ReactFileReader> */}
 				<Data
+					uploadFile={uploadFile}
 					convertData={convertData}
 					testData={testData}
 					handleOpenEditModal={handleOpenEditModal}

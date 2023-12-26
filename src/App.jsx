@@ -2,14 +2,24 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import Data from "./components/Data";
+import ModalComponent from "./components/ModalComponent";
+import ErrorFallback from "./components/ErrorFallback.tsx";
 import Papa from "papaparse";
 import ReactFileReader from "react-file-reader";
 import Encoding from "encoding-japanese";
+import { ErrorBoundary } from "react-error-boundary";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
 
 function App() {
 	const [testData, setTestData] = useState(false);
 	const [csvData, setCsvData] = useState([]);
 	const [convertData, setConvertData] = useState([]);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [showEditModal, setShowEditModal] = useState(false);
+	const [showDownloadModal, setShowDownloadModal] = useState(false);
+	const [currentData, setCurrentData] = useState([]);
 
 	useEffect(() => {
 		if (csvData.length !== 0) {
@@ -70,22 +80,75 @@ function App() {
 	const deleteData = (id) => {
 		const deletedData = convertData.filter((data) => data[0] !== id);
 		setConvertData(deletedData);
+		handleCloseModal();
+	};
+
+	const handleOpenDeleteModal = (data) => {
+		setCurrentData(data);
+		setShowDeleteModal(true);
+	};
+
+	const handleOpenEditModal = (data) => {
+		setCurrentData(data);
+		setShowEditModal(true);
+	};
+
+	const handleOpenDownloadModal = (data) => {
+		setShowDownloadModal(true);
+	};
+
+	const handleCloseModal = () => {
+		setCurrentData([]);
+		setShowDeleteModal(false);
+		setShowEditModal(false);
+		setShowDownloadModal(false);
 	};
 
 	return (
-		<>
-			<h1 className="app-title">BASE売上CSV→ゆうパック発送票コンバーター</h1>
-			<div className="app-upload">
-				<ReactFileReader handleFiles={uploadFile} fileTypes={".csv"}>
-					<button>アップロード</button>
-				</ReactFileReader>
-			</div>
-			<Data
-				convertData={convertData}
-				testData={testData}
-				deleteData={deleteData}
-			></Data>
-		</>
+		<div id="root">
+			<ErrorBoundary fallbackComponent={ErrorFallback}>
+				<h1 className="app-title">BASE売上CSV→ゆうパック発送票コンバーター</h1>
+				<div className="app-upload">
+					<ReactFileReader handleFiles={uploadFile} fileTypes={".csv"}>
+						<button>アップロード</button>
+					</ReactFileReader>
+				</div>
+				<Data
+					convertData={convertData}
+					testData={testData}
+					deleteData={deleteData}
+					handleOpenEditModal={handleOpenEditModal}
+					handleOpenDeleteModal={handleOpenDeleteModal}
+					handleOpenDownloadModal={handleOpenDownloadModal}
+				/>
+				<ModalComponent
+					isOpen={showDeleteModal}
+					onClose={handleCloseModal}
+					handleCloseModal={handleCloseModal}
+					deleteData={deleteData}
+					currentData={currentData}
+					title="削除の確認"
+					content="削除しますか?"
+					buttonContent="削除"
+				/>
+				<ModalComponent
+					isOpen={showEditModal}
+					onClose={handleCloseModal}
+					handleCloseModal={handleCloseModal}
+					currentData={currentData}
+					title="発送情報の編集"
+					buttonContent="更新"
+				/>
+				<ModalComponent
+					isOpen={showDownloadModal}
+					onClose={handleCloseModal}
+					handleCloseModal={handleCloseModal}
+					title="ダウンロードの確認"
+					content="ダウンロードしますか?"
+					buttonContent="ダウンロード"
+				/>
+			</ErrorBoundary>
+		</div>
 	);
 }
 

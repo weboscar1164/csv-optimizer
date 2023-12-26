@@ -1,6 +1,12 @@
 import React from "react";
 
-const Data = ({ convertData, testData, deleteData }) => {
+const Data = ({
+	convertData,
+	testData,
+	handleOpenEditModal,
+	handleOpenDeleteModal,
+	handleOpenDownloadModal,
+}) => {
 	return (
 		<div className="app-data-container">
 			{convertData.length == 0 ? (
@@ -11,7 +17,9 @@ const Data = ({ convertData, testData, deleteData }) => {
 				</div>
 			) : (
 				<div>
-					<button>ダウンロード</button>
+					<button onClick={() => handleOpenDownloadModal()}>
+						ダウンロード
+					</button>
 					<table className="app-data-table">
 						<tbody>
 							<tr>
@@ -32,10 +40,14 @@ const Data = ({ convertData, testData, deleteData }) => {
 										<td>{data[4]}</td>
 										<td>{data[5]}</td>
 										<td>
-											<button>修正</button>
+											<button onClick={() => handleOpenEditModal(data)}>
+												修正
+											</button>
 										</td>
 										<td>
-											<button onClick={() => deleteData(data[0])}>削除</button>
+											<button onClick={() => handleOpenDeleteModal(data)}>
+												削除
+											</button>
 										</td>
 									</tr>
 								);

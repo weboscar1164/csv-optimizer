@@ -5,7 +5,6 @@ import Data from "./components/Data";
 import ModalComponent from "./components/ModalComponent";
 import ErrorFallback from "./components/ErrorFallback.tsx";
 import Papa from "papaparse";
-import ReactFileReader from "react-file-reader";
 import Encoding from "encoding-japanese";
 import { ErrorBoundary } from "react-error-boundary";
 import Modal from "react-modal";
@@ -34,8 +33,9 @@ function App() {
 		reader.onload = (e) => {
 			const codes = new Uint8Array(e.target.result);
 			const encoding = Encoding.detect(codes);
+			console.log("文字コード: " + encoding);
 			const unicodeString = Encoding.convert(codes, {
-				to: "unicode",
+				to: "UNICODE",
 				from: encoding,
 				type: "string",
 			});
@@ -69,6 +69,7 @@ function App() {
 				return {
 					id: i,
 					name: data[10] + " " + data[11],
+					addressNum: data[12],
 					address1: data[13] + data[14],
 					address2: data[15],
 					phone: data[16],
@@ -76,7 +77,6 @@ function App() {
 				};
 			});
 		setConvertData(newData);
-		// console.log("newdata: " + newData);
 	};
 
 	const deleteData = (id) => {
@@ -86,7 +86,6 @@ function App() {
 	};
 
 	const editData = (editedData) => {
-		console.log("編集しました");
 		const updatedData = convertData.map((data) => {
 			if (data.id === editedData.id) {
 				return editedData;
@@ -96,10 +95,6 @@ function App() {
 		});
 		setConvertData(updatedData);
 		handleCloseModal();
-	};
-
-	const downloadData = (props) => {
-		console.log("ダウンロードしました");
 	};
 
 	const handleOpenDeleteModal = (data) => {
@@ -125,13 +120,6 @@ function App() {
 		<div id="root">
 			<ErrorBoundary fallbackComponent={ErrorFallback}>
 				<Header />
-				{/* <ReactFileReader
-					className="app-upload"
-					handleFiles={uploadFile}
-					fileTypes={".csv"}
-				>
-					<button>アップロード</button>
-				</ReactFileReader> */}
 				<Data
 					uploadFile={uploadFile}
 					convertData={convertData}

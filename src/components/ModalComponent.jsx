@@ -43,7 +43,6 @@ const ModalComponent = ({
 			[key]: value,
 		};
 		setCurrentData(editedData);
-		// console.log(currentData);
 	};
 
 	return (
@@ -61,6 +60,17 @@ const ModalComponent = ({
 										type="text"
 										autoComplete="off"
 										value={currentData.name}
+										onChange={(e) => onEditData("name", e.target.value)}
+									/>
+								</td>
+							</tr>
+							<tr>
+								<td>郵便番号</td>
+								<td>
+									<input
+										type="text"
+										autoComplete="off"
+										value={currentData.addressNum}
 										onChange={(e) => onEditData("name", e.target.value)}
 									/>
 								</td>

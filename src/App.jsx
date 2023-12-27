@@ -8,6 +8,7 @@ import Papa from "papaparse";
 import Encoding from "encoding-japanese";
 import { ErrorBoundary } from "react-error-boundary";
 import Modal from "react-modal";
+import { Helmet } from "react-helmet";
 
 Modal.setAppElement("#root");
 
@@ -107,7 +108,7 @@ function App() {
 		setShowModal("edit");
 	};
 
-	const handleOpenDownloadModal = (data) => {
+	const handleOpenDownloadModal = () => {
 		setShowModal("download");
 	};
 
@@ -119,6 +120,9 @@ function App() {
 	return (
 		<div id="root">
 			<ErrorBoundary fallbackComponent={ErrorFallback}>
+				<Helmet>
+					<title>BASE-ゆうプリントコンバータ</title>
+				</Helmet>
 				<Header />
 				<Data
 					uploadFile={uploadFile}

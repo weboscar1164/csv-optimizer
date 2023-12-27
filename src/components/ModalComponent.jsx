@@ -30,6 +30,8 @@ const ModalComponent = ({
 	handleCloseModal,
 }) => {
 	const clickHandler = () => {
+		// 編集と削除でそれぞれボタン機能を付与
+		//ダウンロードは別のボタンを作成
 		if (showModal === "delete") {
 			deleteData(currentData.id);
 		} else {
@@ -38,6 +40,7 @@ const ModalComponent = ({
 	};
 
 	const onEditData = (key, value) => {
+		// currentDataを逐次更新してupdateの準備
 		const editedData = {
 			...currentData,
 			[key]: value,

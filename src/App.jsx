@@ -3,7 +3,7 @@ import "./App.css";
 import Header from "./components/Header";
 import Data from "./components/Data";
 import ModalComponent from "./components/ModalComponent";
-import ErrorFallback from "./components/ErrorFallback.tsx";
+import ErrorFallback from "./components/ErrorFallback";
 import Papa from "papaparse";
 import Encoding from "encoding-japanese";
 import { ErrorBoundary } from "react-error-boundary";
@@ -119,7 +119,10 @@ function App() {
 
 	return (
 		<div id="root">
-			<ErrorBoundary fallbackComponent={ErrorFallback}>
+			<ErrorBoundary
+				FallbackComponent={ErrorFallback}
+				onReset={() => alert("エラーがリセットされました")}
+			>
 				<Helmet>
 					<title>BASE-ゆうプリントコンバータ</title>
 				</Helmet>
@@ -141,7 +144,6 @@ function App() {
 					currentData={currentData}
 					setCurrentData={setCurrentData}
 					title="削除の確認"
-					content="削除しますか?"
 					buttonContent="削除"
 				/>
 				<ModalComponent
@@ -162,7 +164,6 @@ function App() {
 					handleCloseModal={handleCloseModal}
 					convertData={convertData}
 					title="ダウンロードの確認"
-					content="ダウンロードしますか?"
 					buttonContent="ダウンロード"
 				/>
 			</ErrorBoundary>

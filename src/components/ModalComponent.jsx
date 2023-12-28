@@ -18,7 +18,6 @@ const customStyles = {
 };
 const ModalComponent = ({
 	title,
-	content,
 	isOpen,
 	showModal,
 	buttonContent,

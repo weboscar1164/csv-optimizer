@@ -2,20 +2,17 @@ import React from "react";
 import ReactFileReader from "react-file-reader";
 import "./Data.css";
 
-const Data = ({
-	uploadFile,
-	convertData,
-	testData,
-	handleOpenEditModal,
-	handleOpenDeleteModal,
-	handleOpenDownloadModal,
-}) => {
+const Data = ({ uploadFile, convertData, testData, handleOpenModal }) => {
 	return (
 		<div className="app-data-container">
 			<div>
-				<ReactFileReader handleFiles={uploadFile} fileTypes={".csv"}>
-					<button className="app-button app-upload-button">アップロード</button>
-				</ReactFileReader>
+				<div className="file-reader-wrapper">
+					<ReactFileReader handleFiles={uploadFile} fileTypes={".csv"}>
+						<button className="app-button app-upload-button">
+							アップロード
+						</button>
+					</ReactFileReader>
+				</div>
 				{convertData.length == 0 ? (
 					<>
 						<div className="app-data-empty">
@@ -33,7 +30,7 @@ const Data = ({
 					<div>
 						<button
 							className="app-button app-download-button"
-							onClick={() => handleOpenDownloadModal()}
+							onClick={() => handleOpenModal("download")}
 						>
 							ダウンロード
 						</button>
@@ -60,14 +57,14 @@ const Data = ({
 											<td className="app-data-table-button">
 												<button
 													className="app-button app-edit-button"
-													onClick={() => handleOpenEditModal(data)}
+													onClick={() => handleOpenModal("edit", data)}
 												>
 													編集
 												</button>
 
 												<button
 													className="app-button app-delete-button"
-													onClick={() => handleOpenDeleteModal(data)}
+													onClick={() => handleOpenModal("delete", data)}
 												>
 													削除
 												</button>

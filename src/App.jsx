@@ -3,12 +3,9 @@ import "./App.css";
 import Header from "./components/Header";
 import Data from "./components/Data";
 import ModalComponent from "./components/ModalComponent";
-import ErrorFallback from "./components/ErrorFallback";
 import Papa from "papaparse";
 import Encoding from "encoding-japanese";
-import { ErrorBoundary } from "react-error-boundary";
 import Modal from "react-modal";
-import { Helmet } from "react-helmet";
 
 Modal.setAppElement("#root");
 
@@ -98,18 +95,9 @@ function App() {
 		handleCloseModal();
 	};
 
-	const handleOpenDeleteModal = (data) => {
+	const handleOpenModal = (action, data = []) => {
 		setCurrentData(data);
-		setShowModal("delete");
-	};
-
-	const handleOpenEditModal = (data) => {
-		setCurrentData(data);
-		setShowModal("edit");
-	};
-
-	const handleOpenDownloadModal = () => {
-		setShowModal("download");
+		setShowModal(action);
 	};
 
 	const handleCloseModal = () => {
@@ -119,54 +107,44 @@ function App() {
 
 	return (
 		<div id="root">
-			<ErrorBoundary
-				FallbackComponent={ErrorFallback}
-				onReset={() => alert("エラーがリセットされました")}
-			>
-				<Helmet>
-					<title>BASE-ゆうプリントコンバータ</title>
-				</Helmet>
-				<Header />
-				<Data
-					uploadFile={uploadFile}
-					convertData={convertData}
-					testData={testData}
-					handleOpenEditModal={handleOpenEditModal}
-					handleOpenDeleteModal={handleOpenDeleteModal}
-					handleOpenDownloadModal={handleOpenDownloadModal}
-				/>
-				<ModalComponent
-					isOpen={showModal === "delete"}
-					showModal={showModal}
-					onClose={handleCloseModal}
-					handleCloseModal={handleCloseModal}
-					deleteData={deleteData}
-					currentData={currentData}
-					setCurrentData={setCurrentData}
-					title="削除の確認"
-					buttonContent="削除"
-				/>
-				<ModalComponent
-					isOpen={showModal === "edit"}
-					showModal={showModal}
-					onClose={handleCloseModal}
-					handleCloseModal={handleCloseModal}
-					editData={editData}
-					currentData={currentData}
-					setCurrentData={setCurrentData}
-					title="発送情報の編集"
-					buttonContent="更新"
-				/>
-				<ModalComponent
-					isOpen={showModal === "download"}
-					showModal={showModal}
-					onClose={handleCloseModal}
-					handleCloseModal={handleCloseModal}
-					convertData={convertData}
-					title="ダウンロードの確認"
-					buttonContent="ダウンロード"
-				/>
-			</ErrorBoundary>
+			<Header />
+			<Data
+				uploadFile={uploadFile}
+				convertData={convertData}
+				testData={testData}
+				handleOpenModal={handleOpenModal}
+			/>
+			<ModalComponent
+				isOpen={showModal === "delete"}
+				showModal={showModal}
+				onClose={handleCloseModal}
+				handleCloseModal={handleCloseModal}
+				deleteData={deleteData}
+				currentData={currentData}
+				setCurrentData={setCurrentData}
+				title="削除の確認"
+				buttonContent="削除"
+			/>
+			<ModalComponent
+				isOpen={showModal === "edit"}
+				showModal={showModal}
+				onClose={handleCloseModal}
+				handleCloseModal={handleCloseModal}
+				editData={editData}
+				currentData={currentData}
+				setCurrentData={setCurrentData}
+				title="発送情報の編集"
+				buttonContent="更新"
+			/>
+			<ModalComponent
+				isOpen={showModal === "download"}
+				showModal={showModal}
+				onClose={handleCloseModal}
+				handleCloseModal={handleCloseModal}
+				convertData={convertData}
+				title="ダウンロードの確認"
+				buttonContent="ダウンロード"
+			/>
 		</div>
 	);
 }
